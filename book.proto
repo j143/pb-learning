@@ -1,0 +1,41 @@
+syntax = "proto2";
+// https://developers.google.com/protocol-buffers/docs/proto
+
+// define `package` as well
+package labs;
+
+option java_multiple_files = true;
+option java_package = "page.janardhan.labs.protos";
+option java_outer_classname = "BookProtos";
+
+// message: an aggregate containing a set of typed fields.
+// the field types - bool, int32, float, double, and string
+
+message Book {
+  optional string name = 1;
+  optional int32 id = 2;
+  optional int32 price = 3;
+  
+  // "=1", "=2" markers on each element identify the unique "tag"
+  // that field uses in the binary encoding.
+  
+  // tag numbers 1-15 require one less byte to encode than higher
+  // numbers, so as an optimization use these for commonly usedor
+  // repeated elements.
+  enum GenreType {
+    FICTION = 0;
+    REALSTORY = 1;
+    EDUCATIONAL = 2;
+  }
+  
+  message GenreNumber {
+    optional string number = 1;
+    optional GenreType type = 2 [default = FICTION];
+  }
+  
+  repeated GenreNumber genres = 4;
+}
+
+message Book {
+  repeated Book books = 1;
+}
